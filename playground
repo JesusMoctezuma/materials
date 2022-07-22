@@ -1,0 +1,54 @@
+var createScene = function () {
+    // This creates a basic Babylon Scene object (non-mesh)
+    var scene = new BABYLON.Scene(engine);
+
+    // This creates and positions a free camera (non-mesh)
+    const camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 4, Math.PI / 4, 30, BABYLON.Vector3.Zero(), scene);
+    camera.setTarget(BABYLON.Vector3.Zero());
+    camera.attachControl(canvas, true);
+    camera.minZ = 0.1;
+
+    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+
+    // Default intensity is 1. Let's dim the light a small amount
+    light.intensity = 0.5;
+
+    // HDRI
+    // Environment Texture
+    const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDR_BrownPhotostudio_02.env", scene);
+    scene.environmentTexture = hdrTexture;
+    // Creating a cube texture for the HDRI
+    scene.createDefaultSkybox(hdrTexture, true, 100);
+
+    
+
+    // Center Cube.
+    var cube = BABYLON.MeshBuilder.CreateBox("cube", {size: 2}, scene);
+
+    // Move the cube upward 1/2 its height
+    cube.position.y = 3;
+
+    // Ground shape.
+    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 15, height: 20}, scene);
+
+    // Walls
+    var wall01 = BABYLON.MeshBuilder.CreateBox("wall01", {width: 15, height: 5, depth: 0.15 }, scene);
+    wall01.position.z = 10;
+    wall01.position.y = 2.5;
+
+    var wall02 = BABYLON.MeshBuilder.CreateBox("wall02", {width: 15, height: 5, depth: 0.15 }, scene);
+    wall02.position.z = -10;
+    wall02.position.y = 2.5;
+
+    var wall03 = BABYLON.MeshBuilder.CreateBox("wall03", {width: 0.15, height: 5, depth: 20 }, scene);
+    wall03.position.x = 7.5;
+    wall03.position.y = 2.5;
+
+
+    var wall04 = BABYLON.MeshBuilder.CreateBox("wall04", {width: 0.15, height: 5, depth: 20 }, scene);
+    wall04.position.x = -7.5;
+    wall04.position.y = 2.5;
+
+    return scene;
+};
