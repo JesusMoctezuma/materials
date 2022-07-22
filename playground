@@ -13,6 +13,7 @@ var createScene = function () {
     hemiLight.intensity = 0.5;
     hemiLight.groundColor = new BABYLON.Color3(0,0,0)
 
+
     // HDRI
     // Environment Texture
     const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDR_BrownPhotostudio_02.env", scene);
@@ -39,14 +40,17 @@ var createScene = function () {
     wall02.position.z = -40;
     wall02.position.y = 4.5;
 
-    var wall03 = BABYLON.MeshBuilder.CreateBox("wall03", {width: 1.5, height: 30, depth: 80 }, scene);
+    var wall03 = BABYLON.MeshBuilder.CreateBox("wall03", {width: 80, height: 30, depth: 1.5 }, scene);
     wall03.position.x = 45;
     wall03.position.y = 4.5;
+    wall03.rotation.y = Math.PI / 2;
 
 
-    var wall04 = BABYLON.MeshBuilder.CreateBox("wall04", {width: 1.5, height: 30, depth: 80 }, scene);
+    var wall04 = BABYLON.MeshBuilder.CreateBox("wall04", {width: 80, height: 30, depth: 1.5 }, scene);
     wall04.position.x = -45;
     wall04.position.y = 4.5;
+    wall04.rotation.y = Math.PI / 2;
+
 
     // Assets
     var appliance = BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/Appliances/", "wineCoolerMeters.glb", scene);
@@ -56,6 +60,7 @@ var createScene = function () {
     const material01 = new BABYLON.PBRMaterial("material01", scene);
     material01.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/967/T_967AlpineWhiteUltraMatt_D.jpg", scene);
     material01.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/967/T_967AlpineWhiteUltraMatt_N.jpg", scene);
+    material01.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/967/T_967AlpineWhiteUltraMatt_AO_R_M.jpg", scene);
     material01.useAmbientOcclusionFromMetallicTextureRed = true;
     material01.useRoughnessFromMetallicTextureGreen = true;
     material01.useMetallnessFromMetallicTextureBlue = true;
@@ -65,9 +70,34 @@ var createScene = function () {
     material01.emissiveIntensity = 30;
     // material01.refractionTexture = hdrTexture;
     // material01.reflectionTexture = hdrTexture;
-    material01.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/967/T_967AlpineWhiteUltraMatt_AO_R_M.jpg", scene);
     
+    const material02 = new BABYLON.PBRMaterial("material02", scene);
+    material02.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Bricks/BrickRed/T_BrickRed_D.jpg", scene);
+    material02.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Bricks/BrickRed/T_BrickRed_N.jpg", scene);
+    material02.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Bricks/BrickRed/T_BrickRed_AO_R_M.jpg", scene);
+    material02.useAmbientOcclusionFromMetallicTextureRed = true;
+    material02.useRoughnessFromMetallicTextureGreen = true;
+    material02.useMetallnessFromMetallicTextureBlue = true;
+    material02.invertNormalMapX = true;
+    material02.invertNormalMapY = true;
+    material02.backFaceCulling = false;
+    material02.emissiveIntensity = 30;
+    material02.albedoTexture.uScale = 4.5;
+    material02.albedoTexture.vScale = 1.5;
+    material02.bumpTexture.uScale = 4.5;
+    material02.bumpTexture.vScale = 1.5;
+    material02.metallicTexture.uScale = 4.5;
+    material02.metallicTexture.vScale = 1.5;
+    
+
+    // material01.refractionTexture = hdrTexture;
+    // material01.reflectionTexture = hdrTexture;
+
     cube.material = material01;
+    wall01.material = material02;
+    wall02.material = material02;
+    wall03.material = material02;
+    wall04.material = material02;
 
     return scene;
 };
