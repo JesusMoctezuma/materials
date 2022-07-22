@@ -3,52 +3,71 @@ var createScene = function () {
     var scene = new BABYLON.Scene(engine);
 
     // This creates and positions a free camera (non-mesh)
-    const camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 4, Math.PI / 4, 30, BABYLON.Vector3.Zero(), scene);
+    const camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 4, Math.PI / 4, 200, BABYLON.Vector3.Zero(), scene);
     camera.setTarget(BABYLON.Vector3.Zero());
     camera.attachControl(canvas, true);
     camera.minZ = 0.1;
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-
-    // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.5;
+    var hemiLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    hemiLight.intensity = 0.5;
+    hemiLight.groundColor = new BABYLON.Color3(0,0,0)
 
     // HDRI
     // Environment Texture
     const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDR_BrownPhotostudio_02.env", scene);
     scene.environmentTexture = hdrTexture;
     // Creating a cube texture for the HDRI
-    scene.createDefaultSkybox(hdrTexture, true, 100);
+    scene.createDefaultSkybox(hdrTexture, true, 8000);
 
     
 
     // Center Cube.
-    var cube = BABYLON.MeshBuilder.CreateBox("cube", {size: 2}, scene);
-
-    // Move the cube upward 1/2 its height
-    cube.position.y = 3;
+    var cube = BABYLON.MeshBuilder.CreateBox("cube", {size: 7}, scene);
+    cube.position.y = 10;
 
     // Ground shape.
-    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 15, height: 20}, scene);
+    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 90, height: 80}, scene);
+    ground.position.y = -4.5;
 
     // Walls
-    var wall01 = BABYLON.MeshBuilder.CreateBox("wall01", {width: 15, height: 5, depth: 0.15 }, scene);
-    wall01.position.z = 10;
-    wall01.position.y = 2.5;
+    var wall01 = BABYLON.MeshBuilder.CreateBox("wall01", {width: 90, height: 30, depth: 1.5 }, scene);
+    wall01.position.z = 40;
+    wall01.position.y = 4.5;
 
-    var wall02 = BABYLON.MeshBuilder.CreateBox("wall02", {width: 15, height: 5, depth: 0.15 }, scene);
-    wall02.position.z = -10;
-    wall02.position.y = 2.5;
+    var wall02 = BABYLON.MeshBuilder.CreateBox("wall02", {width: 90, height: 30, depth: 1.5 }, scene);
+    wall02.position.z = -40;
+    wall02.position.y = 4.5;
 
-    var wall03 = BABYLON.MeshBuilder.CreateBox("wall03", {width: 0.15, height: 5, depth: 20 }, scene);
-    wall03.position.x = 7.5;
-    wall03.position.y = 2.5;
+    var wall03 = BABYLON.MeshBuilder.CreateBox("wall03", {width: 1.5, height: 30, depth: 80 }, scene);
+    wall03.position.x = 45;
+    wall03.position.y = 4.5;
 
 
-    var wall04 = BABYLON.MeshBuilder.CreateBox("wall04", {width: 0.15, height: 5, depth: 20 }, scene);
-    wall04.position.x = -7.5;
-    wall04.position.y = 2.5;
+    var wall04 = BABYLON.MeshBuilder.CreateBox("wall04", {width: 1.5, height: 30, depth: 80 }, scene);
+    wall04.position.x = -45;
+    wall04.position.y = 4.5;
+
+    // Assets
+    var appliance = BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/Appliances/", "wineCoolerMeters.glb", scene);
+    appliance.position = new BABYLON.Vector3(0, 0, 600);
+
+    // Create materials
+    const material01 = new BABYLON.PBRMaterial("material01", scene);
+    material01.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/967/T_967AlpineWhiteUltraMatt_D.jpg", scene);
+    material01.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/967/T_967AlpineWhiteUltraMatt_N.jpg", scene);
+    material01.useAmbientOcclusionFromMetallicTextureRed = true;
+    material01.useRoughnessFromMetallicTextureGreen = true;
+    material01.useMetallnessFromMetallicTextureBlue = true;
+    material01.invertNormalMapX = true;
+    material01.invertNormalMapY = true;
+    material01.backFaceCulling = false;
+    material01.emissiveIntensity = 30;
+    // material01.refractionTexture = hdrTexture;
+    // material01.reflectionTexture = hdrTexture;
+    material01.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/967/T_967AlpineWhiteUltraMatt_AO_R_M.jpg", scene);
+    
+    cube.material = material01;
 
     return scene;
 };
