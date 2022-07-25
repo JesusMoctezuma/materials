@@ -27,7 +27,7 @@ var createScene = function () {
 
     // HDRI
     // Environment Texture
-    const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDR_BrownPhotostudio_02.env", scene);
+    const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDR_PhotoStudio_01.env", scene);
     scene.environmentTexture = hdrTexture;
     // Creating a cube texture for the HDRI
     scene.createDefaultSkybox(hdrTexture, true, 8000); 
