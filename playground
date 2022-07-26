@@ -15,54 +15,80 @@ var createScene = function () {
 
     // Point Light
     const pointLight01 = new BABYLON.PointLight("pointLight01", new BABYLON.Vector3(20, 30, 0), scene);
-    pointLight01.intensity = 400;
+    pointLight01.intensity = 200;
     const pointLight02 = new BABYLON.PointLight("pointLight01", new BABYLON.Vector3(-20, 30, 0), scene);
-    pointLight02.intensity = 400;
+    pointLight02.intensity = 200;
 
-    // Shadows
-    var shadowGenerator = new BABYLON.ShadowGenerator(1024, pointLight01);
-    shadowGenerator.getShadowMap().renderList.push(cube);
-    var shadowGenerator = new BABYLON.ShadowGenerator(1024, pointLight02);
-    shadowGenerator.getShadowMap().renderList.push(cube);
 
     // HDRI
     // Environment Texture
-    const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDR_PhotoStudio_01.env", scene);
+    // const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDR_BrownPhotostudio_02.env", scene);
+    // const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDR_PhotoStudio_01.env", scene);
+    const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/HDRI/stuttgart_hillside.env", scene);
     scene.environmentTexture = hdrTexture;
-    // Creating a cube texture for the HDRI
-    scene.createDefaultSkybox(hdrTexture, true, 8000); 
+    // Creating a cube1 texture for the HDRI
+    // scene.createDefaultSkybox(hdrTexture, true, 8000); 
 
     // Center Cube.
-    var cube = BABYLON.MeshBuilder.CreateBox("cube", {size: 7}, scene);
-    cube.position.y = 10;
+    var cube1 = BABYLON.MeshBuilder.CreateBox("cube1", {size: 7}, scene);
+    cube1.position.x = 20;
+    cube1.position.y = 10;
+
+    var cube2 = BABYLON.MeshBuilder.CreateBox("cube2", {size: 7}, scene);
+    cube2.position.x = -20;
+    cube2.position.y = 10;
+
+    var cube3 = BABYLON.MeshBuilder.CreateBox("cube3", {size: 7}, scene);
+    cube3.position.z = -20;
+    cube3.position.y = 10;
 
     // Ground shape.
     var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 90, height: 80}, scene);
     ground.position.y = -4.6;
 
     // Walls
-    var wall01 = BABYLON.MeshBuilder.CreateBox("wall01", {width: 90, height: 30, depth: 1.5 }, scene);
+    var wall01 = BABYLON.MeshBuilder.CreateBox("wall01", {width: 90, height: 30, depth: 0.4 }, scene);
     wall01.position.z = 40;
-    wall01.position.y = 4.5;
+    wall01.position.y = 10;
 
-    var wall02 = BABYLON.MeshBuilder.CreateBox("wall02", {width: 90, height: 30, depth: 1.5 }, scene);
+    var wall02 = BABYLON.MeshBuilder.CreateBox("wall02", {width: 90, height: 30, depth: 0.4  }, scene);
     wall02.position.z = -40;
-    wall02.position.y = 4.5;
+    wall02.position.y = 10;
 
-    var wall03 = BABYLON.MeshBuilder.CreateBox("wall03", {width: 81.5, height: 30, depth: 1.5 }, scene);
+    var wall03 = BABYLON.MeshBuilder.CreateBox("wall03", {width: 80, height: 30, depth: 0.4  }, scene);
     wall03.position.x = 45;
-    wall03.position.y = 4.5;
+    wall03.position.y = 10;
     wall03.rotation.y = Math.PI / 2;
 
-    var wall04 = BABYLON.MeshBuilder.CreateBox("wall04", {width: 81.5, height: 30, depth: 1.5 }, scene);
+    var wall04 = BABYLON.MeshBuilder.CreateBox("wall04", {width: 80, height: 30, depth: 0.4  }, scene);
     wall04.position.x = -45;
-    wall04.position.y = 4.5;
+    wall04.position.y = 10;
     wall04.rotation.y = Math.PI / 2;
 
 
     // Assets
-    var appliance = BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/Appliances/", "wineCoolerMeters.glb", scene);
-    appliance.position = new BABYLON.Vector3(0, 0, 600);
+    // var coolerMesh = BABYLON.SceneLoader.ImportMeshAsync("Cooler", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/Appliances/", "wineCoolerMeters.glb", scene);
+    // coolerMesh.position = new BABYLON.Vector3(0, 0, 600);
+
+    // var appliance = BABYLON.SceneLoader.ImportMeshAsync("Door", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/RoomElements/", "Door.glb", scene);
+    // appliance.position = new BABYLON.Vector3(0, 0, 800);
+    var coolerMesh;
+    meshisin2 = BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/Appliances/", "wineCoolerMeters.glb", scene, function (newMeshes2) {
+    coolerMesh = newMeshes2[0];
+    });
+    setTimeout(function() {
+    coolerMesh.position.x = 0;
+    }, 1000);
+
+    var doorMesh;
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/RoomElements/", "Door.glb", scene, function (newMeshes) {
+    doorMesh = newMeshes[0];
+    });
+    setTimeout(function() {
+    doorMesh.position.x = 30;
+    doorMesh.position.y = 6;
+    doorMesh.position.z = 40;
+    }, 1000);
 
     // Create materials
     const material01 = new BABYLON.PBRMaterial("material01", scene);
@@ -97,6 +123,7 @@ var createScene = function () {
     material02.metallicTexture.uScale = 5.5;
     material02.metallicTexture.vScale = 1.8;
 
+
     const material03 = new BABYLON.PBRMaterial("material03", scene);
     // material03.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/ConcreteAsphalt/ConcreteGrey/T_ConcreteGrey_D.jpg", scene);
     // material03.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/ConcreteAsphalt/ConcreteGrey/T_ConcreteGrey_N.jpg", scene);
@@ -118,17 +145,59 @@ var createScene = function () {
     material03.metallicTexture.uScale = 4;
     material03.metallicTexture.vScale = 4;
     material03.roughness = 0.3;
-    // material03.refractionTexture = hdrTexture;
-    // material03.reflectionTexture = hdrTexture;
-    
+    // material03.refractionTexture = hdrTexture
+    material03.reflectionTexture = hdrTexture;
+    // mainMaterial.realTimeFiltering = true;
 
+    const material04 = new BABYLON.PBRMaterial("material04", scene);
+    material04.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Front/964/T_964MineralGreenUltraMatt_D.jpg", scene);
+    material04.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Front/964/T_964MineralGreenUltraMatt_N.jpg", scene);
+    material04.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Front/964/T_964MineralGreenUltraMatt_AO_R_M.jpg", scene);
+    material04.useAmbientOcclusionFromMetallicTextureRed = true;
+    material04.useRoughnessFromMetallicTextureGreen = true;
+    material04.useMetallnessFromMetallicTextureBlue = true;
+    material04.invertNormalMapX = true;
+    material04.invertNormalMapY = true;
+    material04.backFaceCulling = false;
+    material04.emissiveIntensity = 30;
+    material04.roughness = 0;
+    // material04.refractionTexture = hdrTexture;
+    material04.reflectionTexture = hdrTexture;
 
-    cube.material = material01;
+    cube1.material = material01;
+    cube3.material = material04;
     wall01.material = material02;
     wall02.material = material02;
     wall03.material = material02;
     wall04.material = material02;
     ground.material = material03;
+
+    // Create default pipeline
+    var defaultPipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
+    var curve = new BABYLON.ColorCurves();
+    curve.globalHue = 200;
+    curve.globalDensity = 80;
+    curve.globalSaturation = 100;
+    curve.highlightsHue = 20;
+    curve.highlightsDensity = 80;
+    curve.highlightsSaturation = -80;
+    curve.shadowsHue = 2;
+    curve.shadowsDensity = 80;
+    curve.shadowsSaturation = 40;
+    defaultPipeline.imageProcessing.colorCurves = curve;
+    defaultPipeline.depthOfField.focalLength = 150;
+
+
+    // Shadows
+    var shadowGenerator = new BABYLON.ShadowGenerator(1024, pointLight01);
+    shadowGenerator.addShadowCaster(cube1);
+    // shadowGenerator.bias = 0.0001;
+	shadowGenerator.useExponentialShadowMap = true;
+    ground.receiveShadows = true;
+    var shadowGenerator = new BABYLON.ShadowGenerator(1024, pointLight02);
+    shadowGenerator.addShadowCaster(cube1);
+	shadowGenerator.useExponentialShadowMap = true;
+    ground.receiveShadows = true;
 
     return scene;
 };
