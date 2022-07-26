@@ -8,6 +8,7 @@ var createScene = function () {
     camera.attachControl(canvas, true);
     camera.minZ = 0.1;
 
+
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     var hemiLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
     hemiLight.intensity = 0.2;
@@ -42,6 +43,12 @@ var createScene = function () {
     cube3.position.z = -20;
     cube3.position.y = 10;
 
+    var cube4 = BABYLON.Mesh.CreateBox("cube4", 8, scene);
+    cube4.position.x = 20;
+    cube4.position.y = 10;
+    cube4.position.z = -40;
+
+
     // Ground shape.
     var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 90, height: 80}, scene);
     ground.position.y = -4.6;
@@ -65,13 +72,7 @@ var createScene = function () {
     wall04.position.y = 10;
     wall04.rotation.y = Math.PI / 2;
 
-
     // Assets
-    // var coolerMesh = BABYLON.SceneLoader.ImportMeshAsync("Cooler", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/Appliances/", "wineCoolerMeters.glb", scene);
-    // coolerMesh.position = new BABYLON.Vector3(0, 0, 600);
-
-    // var appliance = BABYLON.SceneLoader.ImportMeshAsync("Door", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/RoomElements/", "Door.glb", scene);
-    // appliance.position = new BABYLON.Vector3(0, 0, 800);
     var coolerMesh;
     meshisin2 = BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/Appliances/", "wineCoolerMeters.glb", scene, function (newMeshes2) {
     coolerMesh = newMeshes2[0];
@@ -81,13 +82,23 @@ var createScene = function () {
     }, 1000);
 
     var doorMesh;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/RoomElements/", "Door.glb", scene, function (newMeshes) {
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/RoomElements/", "DoorWhite.glb", scene, function (newMeshes) {
     doorMesh = newMeshes[0];
     });
     setTimeout(function() {
     doorMesh.position.x = 30;
     doorMesh.position.y = 6;
     doorMesh.position.z = 40;
+    }, 1000);
+
+    var windowMesh;
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Meshes/RoomElements/", "Window.glb", scene, function (newMeshes3) {
+    windowMesh = newMeshes3[0];
+    });
+    setTimeout(function() {
+    windowMesh.position.x = 20;
+    windowMesh.position.y = 10;
+    windowMesh.position.z = -40;
     }, 1000);
 
     // Create materials
@@ -106,9 +117,9 @@ var createScene = function () {
     // material01.reflectionTexture = hdrTexture;
     
     const material02 = new BABYLON.PBRMaterial("material02", scene);
-    material02.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Bricks/BrickRed/T_BrickRed_D.jpg", scene);
-    material02.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Bricks/BrickRed/T_BrickRed_N.jpg", scene);
-    material02.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Bricks/BrickRed/T_BrickRed_AO_R_M.jpg", scene);
+    material02.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/ConcreteAsphalt/ConcreteWhite/T_ConcreteWhite_D.jpg", scene);
+    material02.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/ConcreteAsphalt/ConcreteWhite/T_ConcreteWhite_N.jpg", scene);
+    material02.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/ConcreteAsphalt/ConcreteWhite/T_ConcreteWhite_AO_R_M.jpg", scene);
     material02.useAmbientOcclusionFromMetallicTextureRed = true;
     material02.useRoughnessFromMetallicTextureGreen = true;
     material02.useMetallnessFromMetallicTextureBlue = true;
@@ -125,12 +136,9 @@ var createScene = function () {
 
 
     const material03 = new BABYLON.PBRMaterial("material03", scene);
-    // material03.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/ConcreteAsphalt/ConcreteGrey/T_ConcreteGrey_D.jpg", scene);
-    // material03.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/ConcreteAsphalt/ConcreteGrey/T_ConcreteGrey_N.jpg", scene);
-    // material03.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/ConcreteAsphalt/ConcreteGrey/T_ConcreteGrey_AO_R_M.jpg", scene);
-    material03.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Wood/OakWood/T_OakWood_D.jpg", scene);
-    material03.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Wood/OakWood/T_OakWood_N.jpg", scene);
-    material03.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Wood/OakWood/T_OakWood_AO_R_M.jpg", scene);
+    material03.albedoTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Wood/WoodFloorClear/T_WoodFloorClear_D.jpg", scene);
+    material03.bumpTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Wood/WoodFloorClear/T_WoodFloorClear_N.jpg", scene);
+    material03.metallicTexture = new BABYLON.Texture("https://raw.githubusercontent.com/JesusMoctezuma/materials/master/Materials/Wood/WoodFloorClear/T_WoodFloorClear_AO_R_M.jpg", scene);
     material03.useAmbientOcclusionFromMetallicTextureRed = true;
     material03.useRoughnessFromMetallicTextureGreen = true;
     material03.useMetallnessFromMetallicTextureBlue = true;
@@ -139,11 +147,11 @@ var createScene = function () {
     material03.backFaceCulling = false;
     material03.emissiveIntensity = 30;
     material03.albedoTexture.uScale = 4;
-    material03.albedoTexture.vScale = 4;
+    material03.albedoTexture.vScale = 3;
     material03.bumpTexture.uScale = 4;
-    material03.bumpTexture.vScale = 4;
+    material03.bumpTexture.vScale = 3;
     material03.metallicTexture.uScale = 4;
-    material03.metallicTexture.vScale = 4;
+    material03.metallicTexture.vScale = 3;
     material03.roughness = 0.3;
     // material03.refractionTexture = hdrTexture
     material03.reflectionTexture = hdrTexture;
@@ -164,13 +172,28 @@ var createScene = function () {
     // material04.refractionTexture = hdrTexture;
     material04.reflectionTexture = hdrTexture;
 
+    // Standard Materials
+    var material00 = new BABYLON.StandardMaterial("mat0", scene);
+    material00.alpha = 0.0;
+
     cube1.material = material01;
     cube3.material = material04;
     wall01.material = material02;
-    wall02.material = material02;
+    wall02.material = material00;
     wall03.material = material02;
     wall04.material = material02;
     ground.material = material03;
+    
+
+    cube4.material = material00;
+
+    // Substraction
+    var cube4CSG = BABYLON.CSG.FromMesh(cube4);
+    var wall02CSG = BABYLON.CSG.FromMesh(wall02);
+
+    var subCSG = wall02CSG.subtract(cube4CSG);
+    var newCSGMesh = subCSG.toMesh("csg", material02, scene);
+    // newCSGMesh.position = new BABYLON.Vector3(0, 0, 0);
 
     // Create default pipeline
     var defaultPipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
